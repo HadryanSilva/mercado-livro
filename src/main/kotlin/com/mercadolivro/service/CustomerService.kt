@@ -9,14 +9,13 @@ import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CustomerService(
-    val repository: CustomerRepository,
-    private val customerRepository: CustomerRepository
+    val repository: CustomerRepository
 ) {
     fun getAllCustomers(name: String?): List<CustomerResponse>? {
         val customers = if (name.isNullOrBlank()) {
             repository.findAll().map { it.toResponse() }
         } else {
-            repository.findByName(name)?.map { customer -> customer.toResponse()  }
+            repository.findByNameContaining(name)?.map { customer -> customer.toResponse()  }
         }
         return customers
     }

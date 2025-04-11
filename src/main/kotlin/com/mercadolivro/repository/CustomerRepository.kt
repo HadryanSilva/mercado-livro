@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CustomerRepository : JpaRepository<Customer, Int> {
-    fun findByName(name: String?): List<Customer>?
+    fun findByNameContaining(name: String?): List<Customer>?
 }
