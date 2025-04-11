@@ -1,1 +1,1 @@
-## Projeto para aprendizado da Linguagem Kotlin no backend utilizando Spring Boot
+## Projeto para aprendizado da linguagem Kotlin no backend utilizando Spring Boot
