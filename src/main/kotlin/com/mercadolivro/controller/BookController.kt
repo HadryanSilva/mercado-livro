@@ -5,7 +5,6 @@ import com.mercadolivro.controller.request.PutBookRequest
 import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.extension.toModel
 import com.mercadolivro.extension.toResponse
-import com.mercadolivro.model.Customer
 import com.mercadolivro.service.BookService
 import com.mercadolivro.service.CustomerService
 import org.springframework.http.HttpStatus
@@ -45,7 +44,7 @@ class BookController(
 
     @PostMapping
     fun create(@RequestBody request: PostBookRequest): ResponseEntity<BookResponse> {
-        val customer = customerService.getById(request.customerId)
+        val customer = customerService.findById(request.customerId)
         val response = bookService.create(request.toModel(customer)).toResponse()
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }

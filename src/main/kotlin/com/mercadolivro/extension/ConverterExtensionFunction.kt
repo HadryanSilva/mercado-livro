@@ -7,6 +7,7 @@ import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.controller.response.CustomerResponse
 import com.mercadolivro.enums.BookStatus
+import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.model.Book
 import com.mercadolivro.model.Customer
 
@@ -14,14 +15,16 @@ fun PostCustomerRequest.toModel(): Customer {
     return Customer(
         name = this.name,
         email = this.email,
+        status = CustomerStatus.ACTIVE
     )
 }
 
-fun PutCustomerRequest.toModel(id: Int): Customer {
+fun PutCustomerRequest.toModel(previousValue: Customer): Customer {
     return Customer(
-        id = id,
+        id = previousValue.id,
         name = this.name,
         email = this.email,
+        status = this.status
     )
 }
 
@@ -30,6 +33,7 @@ fun Customer.toResponse(): CustomerResponse {
         id = this.id,
         name = this.name,
         email = this.email,
+        status = this.status
     )
 }
 

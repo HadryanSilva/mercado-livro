@@ -28,7 +28,7 @@ class CustomerController(
 
     @GetMapping("/{id}")
     fun getCustomer(@PathVariable id: Int): ResponseEntity<CustomerResponse> {
-        val customer = service.getById(id)?.toResponse()
+        val customer = service.findById(id)?.toResponse()
         return ResponseEntity.ok(customer)
     }
 
@@ -40,7 +40,8 @@ class CustomerController(
 
     @PutMapping
     fun update(@RequestBody customer: PutCustomerRequest): ResponseEntity<Void> {
-        service.update(customer.toModel(customer.id))
+        val customerSaved = service.findById(customer.id)
+        service.update(customer.toModel(customerSaved))
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 
