@@ -5,7 +5,7 @@ import jakarta.persistence.*
 @Entity
 data class Customer(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null,
 
     @Column(nullable = false)

@@ -5,7 +5,6 @@ import com.mercadolivro.extension.toResponse
 import com.mercadolivro.model.Customer
 import com.mercadolivro.repository.CustomerRepository
 import org.springframework.stereotype.Service
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CustomerService(
@@ -20,13 +19,13 @@ class CustomerService(
         return customers
     }
 
-    fun getCustomer(id: Int): CustomerResponse? {
-        val customer = repository.findById(id).getOrNull()?.toResponse()
+    fun getById(id: Int?): Customer? {
+        val customer = repository.findById(id!!).orElseThrow { Exception("Customer not found") }
         return customer
     }
 
-    fun create(customer: Customer): CustomerResponse {
-        val response = repository.save(customer).toResponse()
+    fun create(customer: Customer): Customer {
+        val response = repository.save(customer)
         return response
     }
 
