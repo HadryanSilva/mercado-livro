@@ -9,7 +9,8 @@ import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CustomerService(
-    val repository: CustomerRepository
+    val repository: CustomerRepository,
+    private val customerRepository: CustomerRepository
 ) {
     fun getAllCustomers(name: String?): List<CustomerResponse>? {
         val customers = if (name.isNullOrBlank()) {
@@ -31,13 +32,17 @@ class CustomerService(
     }
 
     fun update(customer: Customer) {
-        val customerModel = customer.id?.let { repository.findById(it).getOrNull() }
-            ?: throw Exception("Customer not found")
-        customerModel.name = customer.name
-        customerModel.email = customer.email
+        if (!repository.existsById(customer.id!!)) {
+            throw Exception("Customer not found")
+        }
+
+        repository.save(customer)
     }
 
     fun delete(id: Int) {
+        if (!repository.existsById(id)) {
+            throw Exception("Customer not found")
+        }
         repository.deleteById(id)
     }
 }
