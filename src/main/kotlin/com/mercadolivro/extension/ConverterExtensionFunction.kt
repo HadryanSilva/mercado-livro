@@ -39,6 +39,7 @@ fun Customer.toResponse(): CustomerResponse {
 
 fun PostBookRequest.toModel(customer: Customer?): Book {
     return Book(
+        id = null,
         name = this.name,
         price = this.price,
         status = BookStatus.ACTIVE,
@@ -49,9 +50,9 @@ fun PostBookRequest.toModel(customer: Customer?): Book {
 fun PutBookRequest.toModel(previousValue: Book): Book {
     return Book(
         id = previousValue.id,
-        name = this.name,
+        name = this.name ?: previousValue.name,
         price = this.price ?: previousValue.price,
-        status = previousValue.status,
+        status = this.status ?: previousValue.status,
         customer = previousValue.customer
     )
 }

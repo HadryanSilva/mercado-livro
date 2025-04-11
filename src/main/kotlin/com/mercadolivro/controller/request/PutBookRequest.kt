@@ -5,7 +5,8 @@ import java.math.BigDecimal
 
 data class PutBookRequest (
     var id: Int,
-    var name: String,
+    var name: String?,
     var price: BigDecimal?,
+    var status: BookStatus? = null,
     var customerId: Int,
 )

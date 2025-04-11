@@ -16,10 +16,27 @@ data class Book(
     @Column(nullable = false)
     var price: BigDecimal,
 
-    @Enumerated(EnumType.STRING)
-    var status: BookStatus? = null,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     var customer: Customer? = null
-)
+) {
+
+    @Enumerated(EnumType.STRING)
+    var status: BookStatus? = null
+        set(value) {
+            if (field == BookStatus.CANCELED || field == BookStatus.DELETED) {
+                throw Exception("Book cannot be updated")
+            }
+            field = value
+        }
+
+    constructor(
+        id: Int?,
+        name: String,
+        price: BigDecimal,
+        customer: Customer?,
+        status: BookStatus?
+    ) : this(id, name, price, customer) {
+        this.status = status
+    }
+}

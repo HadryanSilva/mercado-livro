@@ -2,10 +2,13 @@ package com.mercadolivro.service
 
 import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.enums.BookStatus
+import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.model.Book
 import com.mercadolivro.model.Customer
 import com.mercadolivro.repository.BookRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,11 +28,14 @@ class BookService(
         return bookRepository.findByNameContaining(name) ?: emptyList()
     }
 
-    fun findAll(): List<Book> {
-        return bookRepository.findAll()
+    fun findAll(pageable: Pageable): Page<Book> {
+        return bookRepository.findAll(pageable)
     }
 
     fun create(book: Book): Book {
+        if (book.customer?.status != CustomerStatus.ACTIVE) {
+            throw Exception("Customer is not active")
+        }
         return bookRepository.save(book)
     }
 
@@ -37,10 +43,6 @@ class BookService(
         if (!bookRepository.existsById(book.id!!)) {
             throw Exception("Book not found")
         }
-        val bookToUpdate = bookRepository.findById(book.id!!).get()
-        bookToUpdate.name = book.name
-        bookToUpdate.price = book.price
-        bookToUpdate.status = book.status
         bookRepository.save(book)
     }
 
