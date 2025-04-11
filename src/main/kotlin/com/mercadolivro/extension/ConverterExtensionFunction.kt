@@ -46,6 +46,7 @@ fun Book.toResponse(): BookResponse {
         id = this.id,
         name = this.name,
         price = this.price,
-        status = this.status
+        status = this.status,
+        customer = this.customer
     )
 }
