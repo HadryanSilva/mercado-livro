@@ -1,6 +1,7 @@
 package com.mercadolivro.controller
 
 import com.mercadolivro.controller.request.PostBookRequest
+import com.mercadolivro.controller.request.PutBookRequest
 import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.extension.toModel
 import com.mercadolivro.extension.toResponse
@@ -30,6 +31,12 @@ class BookController(
         return ResponseEntity.ok(books)
     }
 
+    @GetMapping("/{id}")
+    fun findById(@PathVariable id: Int): ResponseEntity<BookResponse> {
+        val book = bookService.findById(id).toResponse()
+        return ResponseEntity.ok(book)
+    }
+
     @GetMapping
     fun findByName(@RequestParam("name") name: String?): ResponseEntity<List<BookResponse>> {
         val books = bookService.findByName(name).map { it.toResponse() }
@@ -44,9 +51,9 @@ class BookController(
     }
 
     @PutMapping
-    fun update(@RequestBody request: PostBookRequest): ResponseEntity<Void> {
-        val customer = customerService.getById(request.customerId)
-        bookService.update(request.toModel(customer))
+    fun update(@RequestBody request: PutBookRequest): ResponseEntity<Void> {
+        val bookSaved = bookService.findById(request.id);
+        bookService.update(request.toModel(bookSaved))
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 

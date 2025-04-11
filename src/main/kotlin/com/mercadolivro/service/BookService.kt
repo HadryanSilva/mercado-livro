@@ -16,6 +16,10 @@ class BookService(
         return bookRepository.findByStatus(BookStatus.ACTIVE)?.map { it.toResponse() } ?: emptyList()
     }
 
+    fun findById(id: Int?): Book {
+        return bookRepository.findById(id!!).orElseThrow { Exception("Book not found") }
+    }
+
     fun findByName(name: String?): List<Book> {
         return bookRepository.findByNameContaining(name) ?: emptyList()
     }
@@ -40,9 +44,8 @@ class BookService(
     }
 
     fun delete(id: Int) {
-        if (!bookRepository.existsById(id)) {
-            throw Exception("Book not found")
-        }
-        bookRepository.deleteById(id)
+        val book = bookRepository.findById(id).orElseThrow { Exception("Book not found") }
+        book.status = BookStatus.CANCELED
+        bookRepository.save(book)
     }
 }
