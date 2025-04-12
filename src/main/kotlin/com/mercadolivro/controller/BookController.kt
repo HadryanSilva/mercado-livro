@@ -7,6 +7,7 @@ import com.mercadolivro.extension.toModel
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.service.BookService
 import com.mercadolivro.service.CustomerService
+import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -46,14 +47,14 @@ class BookController(
     }
 
     @PostMapping
-    fun create(@RequestBody request: PostBookRequest): ResponseEntity<BookResponse> {
+    fun create(@RequestBody @Valid request: PostBookRequest): ResponseEntity<BookResponse> {
         val customer = customerService.findById(request.customerId)
         val response = bookService.create(request.toModel(customer)).toResponse()
         return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
     @PutMapping
-    fun update(@RequestBody request: PutBookRequest): ResponseEntity<Void> {
+    fun update(@RequestBody @Valid request: PutBookRequest): ResponseEntity<Void> {
         val bookSaved = bookService.findById(request.id);
         bookService.update(request.toModel(bookSaved))
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
