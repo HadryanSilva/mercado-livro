@@ -23,6 +23,18 @@ class GlobalExceptionHandler {
         return ResponseEntity(response, HttpStatus.NOT_FOUND)
     }
 
+    @ExceptionHandler(BadRequestException::class)
+    fun handleBadRequestException(exception: BadRequestException, request: WebRequest): ResponseEntity<ErrorResponse> {
+        val response = ErrorResponse(
+            httpCode = HttpStatus.BAD_REQUEST.value(),
+            message = exception.message,
+            internalCode = Errors.ML101.code,
+            errors = null
+        )
+
+        return ResponseEntity(response, HttpStatus.BAD_REQUEST)
+    }
+
     @ExceptionHandler(NullPointerException::class)
     fun handleNullPointerException(exception: NullPointerException, request: WebRequest): ResponseEntity<ErrorResponse> {
         val response =  ErrorResponse(

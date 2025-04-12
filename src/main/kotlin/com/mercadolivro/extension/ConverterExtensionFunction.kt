@@ -52,7 +52,7 @@ fun PutBookRequest.toModel(previousValue: Book): Book {
         id = previousValue.id,
         name = this.name ?: previousValue.name,
         price = this.price ?: previousValue.price,
-        status = this.status ?: previousValue.status,
+        status = this.status ?: previousValue.status, //Por algum motivo o status está null na hora da validação do model
         customer = previousValue.customer
     )
 }

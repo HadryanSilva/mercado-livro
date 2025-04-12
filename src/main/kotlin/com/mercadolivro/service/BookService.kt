@@ -43,10 +43,12 @@ class BookService(
     }
 
     fun update(book: Book) {
-        if (!bookRepository.existsById(book.id!!)) {
-            throw NotFoundException(Errors.ML201.message.format(book.id), Errors.ML201.code)
-        }
-        bookRepository.save(book)
+        val bookToUpdate = bookRepository.findById(book.id!!)
+            .orElseThrow { NotFoundException(Errors.ML201.message.format(book.id), Errors.ML201.code) }
+        bookToUpdate.name = book.name
+        bookToUpdate.price = book.price
+        bookToUpdate.status = book.status
+        bookRepository.save(bookToUpdate)
     }
 
     fun delete(id: Int) {
