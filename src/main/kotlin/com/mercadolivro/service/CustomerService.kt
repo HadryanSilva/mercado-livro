@@ -48,4 +48,8 @@ class CustomerService(
         customer.status = CustomerStatus.DELETED
         repository.save(customer)
     }
+
+    fun emailAvailable(email: String): Boolean {
+        return !repository.existsByEmail(email)
+    }
 }
