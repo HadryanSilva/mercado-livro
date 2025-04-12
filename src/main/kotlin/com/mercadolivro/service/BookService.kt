@@ -4,6 +4,7 @@ import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.enums.Errors
+import com.mercadolivro.exception.BadRequestException
 import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.model.Book
@@ -37,7 +38,7 @@ class BookService(
 
     fun create(book: Book): Book {
         if (book.customer?.status != CustomerStatus.ACTIVE) {
-            throw Exception("Customer is not active")
+            throw BadRequestException(Errors.ML102.message.format(book.id), Errors.ML102.code)
         }
         return bookRepository.save(book)
     }
