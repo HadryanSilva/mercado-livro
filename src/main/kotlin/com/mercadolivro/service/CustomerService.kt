@@ -2,6 +2,7 @@ package com.mercadolivro.service
 
 import com.mercadolivro.controller.response.CustomerResponse
 import com.mercadolivro.enums.CustomerStatus
+import com.mercadolivro.enums.Errors
 import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.model.Customer
@@ -24,7 +25,7 @@ class CustomerService(
 
     fun findById(id: Int?): Customer {
         val customer = repository.findById(id!!)
-            .orElseThrow { NotFoundException("Customer not found") }
+            .orElseThrow { NotFoundException(Errors.ML101.message, Errors.ML101.code) }
         return customer
     }
 
@@ -35,7 +36,7 @@ class CustomerService(
 
     fun update(customer: Customer) {
         if (!repository.existsById(customer.id!!)) {
-            throw NotFoundException("Customer not found")
+            throw NotFoundException(Errors.ML101.message, Errors.ML101.code)
         }
 
         repository.save(customer)

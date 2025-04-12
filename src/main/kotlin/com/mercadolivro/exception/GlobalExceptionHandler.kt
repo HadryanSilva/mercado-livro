@@ -1,6 +1,7 @@
 package com.mercadolivro.exception
 
 import com.mercadolivro.controller.response.ErrorResponse
+import com.mercadolivro.enums.Errors
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -15,7 +16,7 @@ class GlobalExceptionHandler {
         val response = ErrorResponse(
             httpCode = HttpStatus.NOT_FOUND.value(),
             message = exception.message,
-            internalCode = "ML-001",
+            internalCode = exception.errorCode,
             errors = null
         )
 
@@ -26,8 +27,8 @@ class GlobalExceptionHandler {
     fun handleNullPointerException(exception: NullPointerException, request: WebRequest): ResponseEntity<ErrorResponse> {
         val response =  ErrorResponse(
             httpCode = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            message = exception.message ?: "Null pointer exception",
-            internalCode = "ML-002",
+            message = Errors.ML101.message,
+            internalCode = Errors.ML999.code,
             errors = null
         )
 
