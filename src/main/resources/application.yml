@@ -8,3 +8,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=mercado_livro_db
     username: postgres
     password: postgres
+  jackson:
+    default-property-inclusion: non_null
