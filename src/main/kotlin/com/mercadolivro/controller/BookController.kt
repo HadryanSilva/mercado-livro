@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/book")
 class BookController(
-    val customerService: CustomerService,
-    val bookService: BookService
+    private val customerService: CustomerService,
+    private val bookService: BookService
 ) {
 
     @GetMapping("/list")

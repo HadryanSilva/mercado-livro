@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/purchase")
 class PurchaseController(
-    val purchaseService: PurchaseService,
+    private val purchaseService: PurchaseService,
     private val purchaseMapper: PurchaseMapper
 ) {
 

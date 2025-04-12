@@ -8,12 +8,14 @@ import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.model.Customer
 import com.mercadolivro.repository.CustomerRepository
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    val repository: CustomerRepository,
-    val bookService: BookService
+    private val repository: CustomerRepository,
+    private val bookService: BookService,
+    private val passwordEncoder: PasswordEncoder
 ) {
     fun getAllCustomers(name: String?): List<CustomerResponse>? {
         val customers = if (name.isNullOrBlank()) {
@@ -32,7 +34,8 @@ class CustomerService(
 
     fun create(customer: Customer): Customer {
         val customerToSave = customer.copy(
-            roles = setOf(Profile.CUSTOMER)
+            roles = setOf(Profile.CUSTOMER),
+            password = passwordEncoder.encode(customer.password)
         )
         val response = repository.save(customerToSave)
         return response

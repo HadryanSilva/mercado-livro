@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/customer")
 class CustomerController(
-    val service: CustomerService
+    private val service: CustomerService
 ) {
     @GetMapping("/hello")
     fun hello(): ResponseEntity<String> {
