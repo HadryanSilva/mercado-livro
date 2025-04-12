@@ -3,6 +3,7 @@ package com.mercadolivro.service
 import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.enums.CustomerStatus
+import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.model.Book
 import com.mercadolivro.model.Customer
@@ -21,7 +22,7 @@ class BookService(
     }
 
     fun findById(id: Int?): Book {
-        return bookRepository.findById(id!!).orElseThrow { Exception("Book not found") }
+        return bookRepository.findById(id!!).orElseThrow { NotFoundException("Book not found") }
     }
 
     fun findByName(name: String?): List<Book> {
@@ -47,7 +48,7 @@ class BookService(
     }
 
     fun delete(id: Int) {
-        val book = bookRepository.findById(id).orElseThrow { Exception("Book not found") }
+        val book = bookRepository.findById(id).orElseThrow { NotFoundException("Book not found") }
         book.status = BookStatus.CANCELED
         bookRepository.save(book)
     }
