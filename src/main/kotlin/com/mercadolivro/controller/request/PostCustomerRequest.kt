@@ -12,4 +12,8 @@ data class PostCustomerRequest(
     @field:Email(message = "Email deve ser válido")
     @EmailAvailable
     val email: String,
+
+    @field:NotBlank(message = "Senha não pode ser vazia")
+    val password: String,
+
 )

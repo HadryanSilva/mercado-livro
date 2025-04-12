@@ -15,6 +15,9 @@ data class Customer(
     @Column(nullable = false, unique = true)
     var email: String,
 
+    @Column(nullable = false)
+    var password: String,
+
     @Enumerated(EnumType.STRING)
     var status: CustomerStatus
 )

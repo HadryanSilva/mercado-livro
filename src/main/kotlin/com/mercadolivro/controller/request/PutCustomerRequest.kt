@@ -16,6 +16,9 @@ data class PutCustomerRequest(
     @field:NotBlank(message = "Email não pode ser vazio")
     val email: String,
 
-    @field:NotBlank(message = "Status não pode ser vazio")
+    @field:NotBlank(message = "Senha não pode ser vazio")
+    val password: String,
+
+    @field:NotNull
     val status: CustomerStatus
 )
