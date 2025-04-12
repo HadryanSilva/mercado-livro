@@ -10,7 +10,7 @@ data class PostBookRequest (
     @field:NotBlank(message = "Nome não pode ser vazio")
     var name: String,
 
-    @field:NotBlank(message = "Preço não pode ser vazio")
+    @field:NotNull
     var price: BigDecimal,
 
     var status: BookStatus? = null,

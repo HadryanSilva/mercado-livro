@@ -36,6 +36,10 @@ class BookService(
         return bookRepository.findAll(pageable)
     }
 
+    fun findAllById(bookIds: Set<Int>): List<Book> {
+        return bookRepository.findAllById(bookIds).toList()
+    }
+
     fun create(book: Book): Book {
         if (book.customer?.status != CustomerStatus.ACTIVE) {
             throw BadRequestException(Errors.ML102.message.format(book.id), Errors.ML102.code)
