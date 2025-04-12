@@ -69,4 +69,11 @@ class BookService(
         bookRepository.saveAll(books);
     }
 
+    fun updateSoldBook(book: Book) {
+        val bookToUpdate = bookRepository.findById(book.id!!)
+            .orElseThrow { NotFoundException(Errors.ML201.message.format(book.id), Errors.ML201.code) }
+        bookToUpdate.status = BookStatus.SOLD
+        bookRepository.save(bookToUpdate)
+    }
+
 }

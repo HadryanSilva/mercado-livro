@@ -19,4 +19,8 @@ class PurchaseService(
         return purchaseSaved
     }
 
+    fun update(purchase: Purchase): Purchase {
+        return purchaseRepository.save(purchase)
+    }
+
 }
