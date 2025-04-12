@@ -15,6 +15,10 @@ class PurchaseService(
     val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
+    fun findAllByCustomer(customerId: Int): List<Purchase> {
+        return purchaseRepository.findAllByCustomerId(customerId)
+    }
+
     fun create(purchase: Purchase): Purchase {
         validateBookStatus(purchase)
         val purchaseSaved = purchaseRepository.save(purchase)
