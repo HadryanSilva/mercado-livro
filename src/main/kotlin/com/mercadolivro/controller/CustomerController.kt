@@ -9,6 +9,7 @@ import com.mercadolivro.service.CustomerService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -28,6 +29,7 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("#id == authentication.principal or hasRole('ADMIN')")
     fun getCustomer(@PathVariable id: Int): ResponseEntity<CustomerResponse> {
         val customer = service.findById(id)?.toResponse()
         return ResponseEntity.ok(customer)
