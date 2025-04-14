@@ -1,5 +1,6 @@
 package com.mercadolivro.config
 
+import com.mercadolivro.enums.Role
 import com.mercadolivro.repository.CustomerRepository
 import com.mercadolivro.security.AuthenticationFilter
 import com.mercadolivro.security.AuthorizationFilter
@@ -30,6 +31,10 @@ class SecurityConfig(
         "/api/v1/customer"
     )
 
+    private val ADMIN_ENDPOINTS = arrayOf(
+        "/api/v1/admin/**"
+    )
+
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
@@ -37,6 +42,7 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it.requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                 it.requestMatchers(HttpMethod.POST, *PUBLIC_POST_ENDPOINTS).permitAll()
+                it.requestMatchers(HttpMethod.GET, *ADMIN_ENDPOINTS).hasRole(Role.ADMIN.name)
                 it.anyRequest().authenticated()
             }
             .addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
