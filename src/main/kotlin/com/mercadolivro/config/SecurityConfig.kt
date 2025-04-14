@@ -4,6 +4,7 @@ import com.mercadolivro.enums.Role
 import com.mercadolivro.repository.CustomerRepository
 import com.mercadolivro.security.AuthenticationFilter
 import com.mercadolivro.security.AuthorizationFilter
+import com.mercadolivro.security.CustomAuthenticationEntryPoint
 import com.mercadolivro.security.JWTUtil
 import com.mercadolivro.service.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
@@ -26,6 +27,7 @@ class SecurityConfig(
     private val customerRepository: CustomerRepository,
     private val authenticationConfiguration: AuthenticationConfiguration,
     private val userDetailsCustomService: UserDetailsCustomService,
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
     private val jwtUtil: JWTUtil
 ) {
 
@@ -49,6 +51,9 @@ class SecurityConfig(
             }
             .addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil))
             .addFilter(AuthorizationFilter(authenticationManager(), userDetailsCustomService, jwtUtil))
+            .exceptionHandling {
+                it.authenticationEntryPoint(customAuthenticationEntryPoint)
+            }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
         return http.build()
     }

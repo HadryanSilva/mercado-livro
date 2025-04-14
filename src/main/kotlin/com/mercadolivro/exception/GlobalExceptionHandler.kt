@@ -25,19 +25,6 @@ class GlobalExceptionHandler {
         return ResponseEntity(response, HttpStatus.NOT_FOUND)
     }
 
-    @ExceptionHandler(AuthenticationException::class)
-    fun handleAuthenticationException(exception: AuthenticationException, request: WebRequest):
-            ResponseEntity<ErrorResponse> {
-        val response = ErrorResponse(
-            httpCode = HttpStatus.UNAUTHORIZED.value(),
-            message = exception.message,
-            internalCode = exception.errorCode,
-            errors = null
-        )
-
-        return ResponseEntity(response, HttpStatus.UNAUTHORIZED)
-    }
-
     @ExceptionHandler(BadRequestException::class)
     fun handleBadRequestException(exception: BadRequestException, request: WebRequest): ResponseEntity<ErrorResponse> {
         val response = ErrorResponse(
